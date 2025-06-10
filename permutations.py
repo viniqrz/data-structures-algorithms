@@ -2,18 +2,18 @@
 
 def permutations(nums):
     n = len(nums)
-    sol, ans = [], []
+    perm, ans = [], []
     
     def backtrack():
-        if len(sol) >= n:
-            ans.append(sol.copy())
+        if len(perm) >= n:
+            ans.append(perm.copy())
             return
         
         for x in nums:
-            if x not in sol:
-                sol.append(x)
+            if x not in perm:
+                perm.append(x)
                 backtrack()
-                sol.pop()
+                perm.pop()
                 
     backtrack()
     
