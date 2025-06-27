@@ -14,7 +14,7 @@ def permutations(nums):
                 perm.append(x)
                 backtrack()
                 perm.pop()
-                
+    
     backtrack()
     
     return ans

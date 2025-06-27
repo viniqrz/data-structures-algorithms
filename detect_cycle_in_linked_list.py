@@ -15,9 +15,9 @@ listA = A
 
 def detect_cycle_in_linked_list(head):
     node = head
-    while node:
-        print(node.val)
-        node = node.next
+    # while node:
+    #     print(node.val)
+    #     node = node.next
         
         
     slow = head
