@@ -10,24 +10,29 @@ def tsp(graph):
             
         path.append(node)
         
-        # 2. TSP Base Case: We successfully visited every node exactly once!
+        # 2. Classical TSP Base Case: Visited every node, now go home!
         if len(path) == total_nodes:
-            return distance
+            start_node = path[0]
+            current_node = node
+            
+            # Look for the edge connecting the last node back to the start
+            for neighbor, weight in graph.get(current_node, []):
+                if neighbor == start_node:
+                    return distance + weight
+            
+            # If there is no road back to the start, it's an invalid loop
+            return float('inf')
     
-        distances = []
+        distances = [float('inf')]
     
         # 3. Explore neighbors
         # (Using .get(node, []) prevents TypeError if a node has no outgoing edges)
         for child, child_distance in graph.get(node, []):
             distances.append(dfs(child, distance + child_distance, path.copy()))
         
-        # 4. Prevent ValueError if `distances` is empty (dead end)
-        if not distances:
-            return float('inf')
-            
         return min(distances)
 
-    distances = []
+    distances = [float('inf')]
     
     for node in nodes:
         distances.append(dfs(node, 0, []))
@@ -46,4 +51,4 @@ graph = {
     'D': [('C', 1), ('A', 2)] 
 }
 
-print(f"Shortest Hamiltonian path distance: {tsp(graph)}")
+print(f"Shortest path distance: {tsp(graph)}")

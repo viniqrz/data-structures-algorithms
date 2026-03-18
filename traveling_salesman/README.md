@@ -1,25 +1,25 @@
 # Traveling Salesman (TSP)
 
-> Find the minimum cost to visit every city exactly once. &nbsp;⏱ Current implementation: `O(N * N!)` &nbsp;💾 Space `O(N)` recursion depth
+> Visit every node exactly once with minimum total cost. &nbsp;⏱ Current approach: `O(N * N!)` &nbsp;💾 Space `O(N)` recursion depth
 
 ## 🧠 The Idea
 
-This implementation uses DFS to explore every valid path that visits all nodes exactly once, then returns the minimum total distance.
+This implementation performs DFS from every possible start node and takes the minimum valid full-visit distance.
 
-- It starts DFS from each node.
-- It tracks the current path and running distance.
-- If a node repeats before covering all nodes, that branch is invalid.
-- If a branch visits all nodes, its distance becomes a candidate answer.
+- A path is invalid if it revisits a node before all nodes are covered.
+- A path is complete when it contains every node exactly once.
+- Dead ends return `inf`, so they are naturally ignored by `min(...)`.
 
 ```text
-dfs(node, distance, path):
-    if node already in path: return inf
-    add node to path
-    if path includes all nodes: return distance
-    return min(dfs(neighbour, distance + w, path_copy) for neighbour)
+Algorithm:
+  1. For each node as start:
+       run DFS(node, distance=0, path=[])
+  2. DFS tries every outgoing edge to unvisited nodes
+  3. If path size == total nodes: return distance
+  4. Return global minimum over all starts
 ```
 
-Note: This code computes the shortest Hamiltonian path variant (no forced return to start), not the classic TSP cycle.
+Note: This code solves the shortest Hamiltonian **path** variant (no mandatory return to start), not the classic Hamiltonian **cycle** TSP.
 
 ## 📊 Visual
 
@@ -31,33 +31,34 @@ Graph:
     |    \  |
     C --1-- D
 
-Try starts at A, B, C, D and take minimum valid full-visit path.
-One optimal result here: B -> A -> C -> D = 2 + 1 + 1 = 4
+DFS tries starts at A, B, C, D.
+Best full-visit path: B -> A -> C -> D
+Cost: 2 + 1 + 1 = 4
 ```
 
 ## 📜 History & Background
 
-The Traveling Salesman Problem is one of the most famous NP-hard optimization problems. It appears in logistics, chip manufacturing, robotics, and route planning. Because exact search scales poorly, practical systems usually rely on dynamic programming for moderate sizes or approximation/heuristic algorithms for large sizes.
+TSP is one of the best-known NP-hard optimization problems. It appears in logistics, robotics, manufacturing, and scheduling. Exact brute-force search becomes infeasible quickly, so practical solutions use dynamic programming, branch-and-bound, or approximation/heuristic methods.
 
 ## 💼 Tech Interview Tips
 
-- Clarify whether the question expects a Hamiltonian path or a cycle (must return to start).
-- Brute-force DFS/backtracking is acceptable for small `N` and good for explaining state-space search.
-- A classic optimization is DP + bitmask: `O(N^2 * 2^N)`.
-- If revisits are allowed or weights are non-complete, this is no longer standard TSP.
-- Mention pruning opportunities (current distance already worse than known best).
+- Clarify constraints first: path vs cycle, directed vs undirected, complete vs sparse graph.
+- Backtracking DFS is great for small `N` and for explaining pruning strategies.
+- Standard optimization: DP with bitmask (`O(N^2 * 2^N)`).
+- Keep an eye on base cases and invalid branches (`inf` pattern is common).
+- If the interviewer asks for "return to start", add final edge check/cost.
 
 ## 🎯 Common Use Cases
 
-- Delivery route planning
-- PCB drilling and CNC tool path optimization
-- Warehouse picking optimization
-- Robotics task sequencing
-- DNA fragment ordering (related formulations)
+- Delivery and routing optimization
+- CNC/PCB tool movement planning
+- Warehouse picking sequence optimization
+- Robotics waypoint sequencing
+- Crew/job scheduling with transition costs
 
 ## 🔗 Related Problems
 
-- [DFS](../dfs/) - traversal foundation used here
-- [Shortest Path](../shortest_path/) - shortest route between two nodes (different from visiting all nodes)
-- [Topo Sort](../topo_sort/) - ordering constraints in DAGs
-- [Knapsack](../knapsack/) - another classic combinatorial optimization problem
+- [DFS](../dfs/) - traversal strategy used in this solution
+- [Shortest Path](../shortest_path/) - shortest route between two nodes (different objective)
+- [Topological Sort](../topo_sort/) - ordering tasks under dependencies
+- [Knapsack](../knapsack/) - classic combinatorial optimization
