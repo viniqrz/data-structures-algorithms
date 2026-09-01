@@ -1,0 +1,59 @@
+# Digit Anagrams (Hash Map & String Manipulation)
+
+# Difficulty: Medium (Classic CodeSignal Q2).
+
+# Problem: Given an array of integers a, count the number of pairs (i, j) where i < j and the values a[i] and a[j] contain the exact same frequency of digits (e.g., 123 and 321 are anagrams, but 122 and 12 are not).
+
+# Input: a = [25, 35, 872, 228, 53, 278, 87, 52, 782]
+
+# Output: 5
+
+# Explanation: The valid index pairs (i, j) where i < j that contain the exact same digit frequencies are [25, 52], [35, 53], [872, 278], [872, 782], and [278, 782].
+
+# solution, you can always for a few examples, even more than one, that's not only normal, it's expected and rewarded, sometimes it's confusing on purpose so you will have to ask to proceed, they can even hint you to ask for examples, it's normal, their goal is to simulate a perfect pair-programming section where one has the answer, and the other not, he helps, because he knows what to do, but only enough so the other can use their own logic and critical thinking, help, but not all the time, maybe every few minutes, and only if it's welcomed, if it's not, then candidate is problematic or really really good, but doesn't know how to deal with people, that's a common reason smart engineers get denied, the correct way to think is: help and get helped, show what you do, ask for suggestions, consider, evaluate, discuss, proceed, then repeat, that's a daily workflow at google, so that's how interviews should be, an interaction, a conversation. if you are really senior at google worked there for 30 years and interviewed 1000 people, how would you approach an interview? i would be calm, because the only goal, is not to force them to answer the problems i created for them to solve, but it is to make sure they are a nice friend and really smart, they must think sharply, simple logical problems should be easy, the individual parts that form the complete problem statement should be solved easily by them, not necessarily the whole problem stated, and they should be friendly and honest when dealing with the big picture, because for sure that's the hard part, not the tiny logical deductions along the way. that's how a principal software engineer interviews any candidate at google. the big problem, the complete problem, is just a way for us to evaluate if candidate is quick at solving the tiny parts, and if they can communicate well to make sure he will make progress in the connections between them, a problem has multiple steps, they should communicate among steps to reach the final solution, how do they approach the glue that connects the steps? do they talk? do they interact? ask for help? suggest? that's good behavior, the steps themselves are not a big problem for them to solve, otherwise they wouldn't even be there, so more of a soft-skill evaluation. they won't even reach that technical interview stage if they are not solid at puzzles. so it's more about interaction and collaboration. if i would be interviewed at google, i would try to make it feel like having a beer with a friend while solving a puzzle together. it's like 2 friends solving a complex puzzle. the most common reason for rejection is bad communication, but even more specifically, lack of friendliness when approaching complex problems, that's some people's standard way of thinking, they isolate themselves when dealing with complex problems, but a tip i would give for them: maybe you are not wrong, you should be think with yourself, but not long enough so it will ruin an interaction, think, then share, think, then share, then proceed with a common solution, not your own. a good interviewer will try to give you an alternative solution that's inevitably better, and that's why they study the problem before the interview, and you must accept to proceed and get approved. accept their good suggestions, do not follow otherwise. unless, it's a bad suggestion, they can give bad suggestions too, and they expect you to deny the bad suggestions, but most are good, this is not as common as good suggestions, just be aware. about airbnb, if you are getting interviewed there, you must know this: they are trying to copy how google interview, but they can't, so it's a bit confusing what they expect from you because it's confusing for them too, but being honest, they just wanted to be googlers, and they try to copy google, so it's a matter of also explaining them the correct way to interview you, they won't feel this is bad, this is a good thing, but it's bold, not all have the courage. if you did well at google, their CEO asks please you should do well at airbnb too, if you don't, there's something wrong with his company, send him an email, he uses AI to look for ways to improve the company. maybe he will talk to you. sometimes, the company is wrong, and that is most of the time. so getting into a big tech it's also a matter of luck, even if you are really good, companies have bad culture, bad people, and it's not intentional, if you start your own company, you will have these kind of problems, it's unavoidable, and it is the main reason organizations fail, culture and a set of behaviors. vinicius, voce é assim sem nem tentar, você é naturalmente assim. mal ele sabe que o problema não é deixar de contribuir individualmente e contribuir organizacionalmente, o problema é ser capaz de fazer isso. se ele soubesse que ele é capaz, isso já mudaria tudo. obvio, não tem vaga de cto em todos os lugares, mas você deve criar a sua. no caso do Vinicius, não é sobre perceber, ou sobre mudar algo, ele já está simplesmente tão ocupado com os outros, que isso toma cada vez mais tempo, e a cada mês, aumenta, a ponto de 80% do tempo ser dedicado aos outros desenvolvedores. nos poucos 20% de tempo que sobra só para ele, ele faz tudo normalmente.
+
+from collections import Counter
+
+def counter(raw_int):
+    ## receives integer number, breaks down in hashmap with frequency of each digit
+    
+    int_str = str(raw_int)
+
+    hash = {}
+
+    for i in range(len(int_str)):
+        if hash.get(int_str[i]):
+            hash[int_str[i]] = hash.get(int_str[i]) + 1
+        else:
+            hash[int_str[i]] = 1
+
+    return hash
+            
+
+
+
+def solution(a):
+
+    pairs = set()
+    
+    for i in range(len(a)):
+
+        for j in range(i + 1, len(a)):
+            
+            hashMapI = counter(a[i]) # could be Counter class from collections in PY
+            hashMapJ = counter(a[j])
+
+            if hashMapI == hashMapJ and (i,j) not in pairs:
+                pairs.add((i,j))
+
+    print(pairs, len(pairs))
+
+    return len(pairs)
+
+
+
+
+solution([25, 35, 872, 228, 53, 278, 87, 52, 782])
+
+
+
